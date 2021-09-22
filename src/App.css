@@ -1,38 +1,61 @@
-.App {
-  text-align: center;
+:root {
+  --wght: 300;
+  --slnt: 0;
+  --mono: 0;
+  --casl: 0;
+  --box-shadow: 1px 1px 5px rgb(63 63 63 / 58%);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*:not(.word-art>span){
+  font-variation-settings: "wght" var(--wght),
+                           "slnt" var(--slnt),
+                           "MONO" var(--mono),
+                           "CASL" var(--casl);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body{
+  font-family: 'Recursive', monospace;
+  margin: 5vmin;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+header > div {
+  border: 1px solid black;
+  padding: 0 1em 2em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header > div:nth-child(2){
+  border-left:none;
+  background-color:#333;
+  color:white;
+}
+
+ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rover-list li:hover{
+  cursor: pointer;
+  background-color: rgb(236, 236, 236);
+}
+
+.rover-list li.current{
+  --wght:600
+}
+
+main li {
+  border: 1px solid;
+  margin-bottom: 2em;
+  padding: 1em;
+  max-width: 20em;
+}
+
+img{
+  width: 100%;
+  max-width: 20rem;
 }
