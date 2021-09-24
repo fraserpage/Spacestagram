@@ -33,10 +33,30 @@ header > div:nth-child(2){
   color:white;
 }
 
+header p {
+  margin: 0;
+}
+
+header h3{
+  font-size: 1em;
+  margin-bottom: 0;
+}
+
+header span,
+header div:nth-child(3) ul{
+  --slnt:-10;
+  --wght:400;
+}
+
+form{
+  margin-top: 1em;
+}
+
 ul{
   list-style: none;
   padding: 0;
   margin: 0;
+  --mono:1;
 }
 
 .rover-list li:hover{
@@ -48,14 +68,18 @@ ul{
   --wght:600
 }
 
+main ul {
+  display: grid;
+  grid-gap: 2em;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  margin: 1em 0;
+}
+
 main li {
   border: 1px solid;
-  margin-bottom: 2em;
   padding: 1em;
-  max-width: 20em;
 }
 
 img{
   width: 100%;
-  max-width: 20rem;
 }
