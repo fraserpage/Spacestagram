@@ -52,6 +52,38 @@ form{
   margin-top: 1em;
 }
 
+form label{
+  margin-right: 0.5em;
+}
+
+form span{
+  display: inline-block;
+  white-space: nowrap;
+  margin-top: 0.5em;
+}
+
+button{
+  border: 1px solid;
+  padding: 0.25em 0.5em;
+  background-color: rgb(233, 233, 233);
+  cursor: pointer;
+  margin-right: 0.5em;
+}
+
+button:hover{
+  background-color: rgb(240, 240, 240);
+}
+
+header button{
+  border-color: rgb(233, 233, 233);
+}
+
+input{
+  padding: 0.25em 0.5em;
+  border: 1px solid white;
+  margin-right: 0.5em;
+}
+
 ul{
   list-style: none;
   padding: 0;
@@ -82,4 +114,32 @@ main li {
 
 img{
   width: 100%;
+}
+
+@media screen and (max-width:630px) {
+  header {
+    flex-wrap: wrap;
+  }
+  header div:nth-child(2){
+    flex:1;
+  }  
+  header div:nth-child(3){
+    border-top:0px;
+    width: 100%;
+  }  
+  header div:nth-child(3) li{
+    display: inline-block;
+  }
+  header div:nth-child(3) li:not(:last-child):after{
+    content: ",";
+    display: inline-block;
+    width: 0.8em;
+  }
+}
+
+@media screen and (max-width:500px) {
+  header div{
+    width: 100%;
+    flex:auto;
+  }  
 }

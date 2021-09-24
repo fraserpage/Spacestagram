@@ -71,13 +71,21 @@ export default class App extends Component{
   }
 
   handleLoadMore = (dir) => {
-    this.setState({
-      slice:this.state.slice + (this.state.photosPerPage * dir),
-      sliceEnd: 
-        this.state.sliceEnd + (this.state.photosPerPage * dir) > this.state.solInfo.total_photos ? 
-            this.state.solInfo.total_photos 
-          : this.state.sliceEnd + (this.state.photosPerPage * dir)
-    })
+    if (this.state.sliceEnd === this.state.solInfo.total_photos){
+      this.setState({
+        slice: this.state.slice - this.state.photosPerPage,
+        sliceEnd: this.state.slice
+      })
+    }
+    else{
+      this.setState({
+        slice: this.state.slice + (this.state.photosPerPage * dir),
+        sliceEnd: 
+          this.state.sliceEnd + (this.state.photosPerPage * dir) > this.state.solInfo.total_photos ? 
+              this.state.solInfo.total_photos 
+            : this.state.sliceEnd + (this.state.photosPerPage * dir)
+      })
+    }
   }
 
   handleSelectRover = async (rover) => {
@@ -127,17 +135,20 @@ export default class App extends Component{
               <p>Total Photos: <span>{this.state.rover.total_photos}</span></p>
     
               <form onSubmit={this.handleRequestPhotos}>
-                <label>Show me photos from Sol day:</label>
-                <input 
-                  type="number" 
-                  name="solPicker" 
-                  min="0" 
-                  max={this.state.rover.max_sol} 
-                  value={this.state.solPicker} 
-                  onChange={this.handleChange} 
-                  required 
-                />
-                <button className="bg-white" type="submit">Go</button>
+                <label for="solPicker">Show me photos from Sol day:</label>
+                <span>
+                  <input 
+                    type="number" 
+                    id="solPicker"
+                    name="solPicker" 
+                    min="0" 
+                    max={this.state.rover.max_sol} 
+                    value={this.state.solPicker} 
+                    onChange={this.handleChange} 
+                    required 
+                  />
+                  <button className="bg-white" type="submit">Go</button>
+                </span>
               </form>
             </div>
           }
@@ -168,7 +179,7 @@ export default class App extends Component{
           }
           {this.state.photos.length > 0 && 
             <>
-              <p>Sol {this.state.sol} | Photos {this.state.slice+1} - {this.state.sliceEnd} | Page {this.state.sliceEnd / this.state.photosPerPage}/{Math.floor(this.state.solInfo.total_photos / this.state.photosPerPage)}</p>
+              <p>Sol {this.state.sol} | Photos {this.state.slice+1} - {this.state.sliceEnd} | Page {Math.ceil(this.state.sliceEnd / this.state.photosPerPage)}/{Math.ceil(this.state.solInfo.total_photos / this.state.photosPerPage)}</p>
               <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>
             </>
           }
