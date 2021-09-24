@@ -93,7 +93,8 @@ export default class App extends Component{
     this.setState({
       rover:data.photo_manifest,
       photos:[],
-      slice:0
+      slice:0,
+      sol:''
     })
   }
 
