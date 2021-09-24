@@ -18,6 +18,11 @@ body{
   margin: 5vmin;
 }
 
+#root {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
 header {
   display: flex;
 }
