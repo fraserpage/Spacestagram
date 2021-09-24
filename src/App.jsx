@@ -192,7 +192,7 @@ export default class App extends Component{
                 <p>Camera: {p.camera.full_name}</p>
                 <p>Earth Date: {p.earth_date}</p>
                 <p>Sol: {p.sol}</p>
-                <button onClick={ evt => this.handleClickLike(p.id) }>
+                <button onClick={ evt => this.handleClickLike(p.id) } style={this.state.likes[p.id] ? {backgroundColor:"pink", color:"black"} : {} }>
                   {this.state.likes[p.id] ? "Unlike" : "Like"}
                 </button>
               </li>
