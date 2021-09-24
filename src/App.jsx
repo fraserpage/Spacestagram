@@ -38,7 +38,6 @@ export default class App extends Component{
       sol: this.state.solPicker
     })
     const solInfo = this.state.rover.photos.find(e => e.sol === this.state.solPicker)
-    console.log("solInfo",solInfo)
     if (typeof solInfo === 'undefined'){
       this.setState({
         solInfo: {empty: true}
@@ -59,7 +58,6 @@ export default class App extends Component{
       if (data.length !== this.state.solInfo.total_photos){
         data = await getPhotosBySol(this.state.rover.name, this.state.sol)
       }
-      console.log("photos",data)
       this.setState({
         loading: false,
         photos: data.photos,
@@ -84,7 +82,6 @@ export default class App extends Component{
 
   handleSelectRover = async (rover) => {
     const data = await getManifest(rover)
-    console.log("rover data",data)
     this.setState({
       rover:data.photo_manifest,
       photos:[],
