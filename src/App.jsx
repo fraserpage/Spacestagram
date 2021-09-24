@@ -23,7 +23,7 @@ export default class App extends Component{
     photos:[],
     slice:0,
     likes:{},
-    photosPerPage:6
+    photosPerPage:8
   }
 
   handleChange = (evt) => {
@@ -40,7 +40,8 @@ export default class App extends Component{
     const solInfo = this.state.rover.photos.find(e => e.sol === this.state.solPicker)
     if (typeof solInfo === 'undefined'){
       this.setState({
-        solInfo: {empty: true}
+        solInfo: {empty: true},
+        photos:[]
       })
     }
     else{
