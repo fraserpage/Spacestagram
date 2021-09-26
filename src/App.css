@@ -110,22 +110,6 @@ ul{
   --wght:600
 }
 
-main ul {
-  display: grid;
-  grid-gap: 2em;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
-  margin: 1em 0;
-}
-
-main li {
-  border: 1px solid;
-  padding: 1em;
-}
-
-img{
-  width: 100%;
-}
-
 @media screen and (max-width:630px) {
   header {
     flex-wrap: wrap;

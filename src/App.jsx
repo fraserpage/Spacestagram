@@ -2,6 +2,7 @@ import { Component } from "react";
 import { getManifest, getPhotosBySol } from "./utils/fetch";
 import './App.css';
 import NextPrevPageButtons from "./components/NextPrevPageButtons";
+import Photo from "./components/Photo";
 
 export default class App extends Component{
 
@@ -137,7 +138,7 @@ export default class App extends Component{
               <p>Total Photos: <span>{this.state.rover.total_photos}</span></p>
     
               <form onSubmit={this.handleRequestPhotos}>
-                <label for="solPicker">Show me photos from Sol day:</label>
+                <label htmlFor="solPicker">Show me photos from Sol day:</label>
                 <span>
                   <input 
                     type="number" 
@@ -176,9 +177,6 @@ export default class App extends Component{
         </header>
         
         <main>
-          {this.state.loading &&
-            <div className="loading">Loading...</div>
-          }
           {this.state.photos.length > 0 && 
             <>
               <p>Sol {this.state.sol} | Photos {this.state.slice+1} - {this.state.sliceEnd} | Page {Math.ceil(this.state.sliceEnd / this.state.photosPerPage)}/{Math.ceil(this.state.solInfo.total_photos / this.state.photosPerPage)}</p>
@@ -186,18 +184,21 @@ export default class App extends Component{
             </>
           }
           <ul>
-            {this.state.photos.slice(this.state.slice, this.state.sliceEnd).map( p => (
-              <li key={p.id}>
-                <img src={p.img_src} alt={`Mars rover ${this.state.rover.name} photo id ${p.id}, taken with ${p.camera.full_name} on ${p.earth_date}`}/>
-                <p>ID: {p.id}</p>
-                <p>Camera: {p.camera.full_name}</p>
-                <p>Earth Date: {p.earth_date}</p>
-                <p>Sol: {p.sol}</p>
-                <button onClick={ evt => this.handleClickLike(p.id) } style={this.state.likes[p.id] ? {backgroundColor:"pink", color:"black"} : {} }>
-                  {this.state.likes[p.id] ? "Unlike" : "Like"}
-                </button>
-              </li>
-            ))}
+            {this.state.loading ?
+              Array.from(Array(this.state.photosPerPage)).map((p,i)=>(
+                <li key={i} className="loading">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </li>
+              ))
+            : ''}{
+              this.state.photos.slice(this.state.slice, this.state.sliceEnd).map( p => (
+                <Photo key={p.id} {...this.state} p={p} handleClickLike={this.handleClickLike}/>
+              ))
+            }
           </ul>
           {this.state.photos.length > 0 && 
             <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>
