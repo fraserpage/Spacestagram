@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/Spacestagram/static/css/main.e9720103.chunk.css",
-    "main.js": "/Spacestagram/static/js/main.313ad764.chunk.js",
-    "main.js.map": "/Spacestagram/static/js/main.313ad764.chunk.js.map",
+    "main.css": "/Spacestagram/static/css/main.f57aafae.chunk.css",
+    "main.js": "/Spacestagram/static/js/main.c5c570fa.chunk.js",
+    "main.js.map": "/Spacestagram/static/js/main.c5c570fa.chunk.js.map",
     "runtime-main.js": "/Spacestagram/static/js/runtime-main.8016444d.js",
     "runtime-main.js.map": "/Spacestagram/static/js/runtime-main.8016444d.js.map",
     "static/js/2.475a4499.chunk.js": "/Spacestagram/static/js/2.475a4499.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.bca1edaf.chunk.js": "/Spacestagram/static/js/3.bca1edaf.chunk.js",
     "static/js/3.bca1edaf.chunk.js.map": "/Spacestagram/static/js/3.bca1edaf.chunk.js.map",
     "index.html": "/Spacestagram/index.html",
-    "static/css/main.e9720103.chunk.css.map": "/Spacestagram/static/css/main.e9720103.chunk.css.map",
+    "static/css/main.f57aafae.chunk.css.map": "/Spacestagram/static/css/main.f57aafae.chunk.css.map",
     "static/js/2.475a4499.chunk.js.LICENSE.txt": "/Spacestagram/static/js/2.475a4499.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.8016444d.js",
     "static/js/2.475a4499.chunk.js",
-    "static/css/main.e9720103.chunk.css",
-    "static/js/main.313ad764.chunk.js"
+    "static/css/main.f57aafae.chunk.css",
+    "static/js/main.c5c570fa.chunk.js"
   ]
 }
