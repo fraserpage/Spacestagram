@@ -23,6 +23,11 @@ body{
   margin: 0 auto;
 }
 
+main {
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+
 header {
   display: flex;
 }
@@ -101,14 +106,6 @@ ul{
   --mono:1;
 }
 
-.rover-list li:hover{
-  cursor: pointer;
-  background-color: rgb(236, 236, 236);
-}
-
-.rover-list li.current{
-  --wght:600
-}
 
 @media screen and (max-width:630px) {
   header {
