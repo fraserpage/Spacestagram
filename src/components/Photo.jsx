@@ -22,7 +22,7 @@ export default class Photo extends Component{
             <div>Earth Date: {this.props.p.earth_date}</div>
           </figcaption>
         </figure>
-        <button onClick={ evt => this.handleClickLike(this.props.p.id) } style={this.props.likes[this.props.p.id] ? {backgroundColor:"pink", color:"black"} : {} }>
+        <button onClick={ evt => this.props.handleClickLike(this.props.p.id) } style={this.props.likes[this.props.p.id] ? {backgroundColor:"pink", color:"black"} : {} }>
           {this.props.likes[this.props.p.id] ? "Unlike" : "Like"}
         </button>
       </li>

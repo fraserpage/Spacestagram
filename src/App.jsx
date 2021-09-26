@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { getManifest, getPhotosBySol } from "./utils/fetch";
+import {Link} from 'react-scroll'
 import './App.css';
 import NextPrevPageButtons from "./components/NextPrevPageButtons";
 import Photo from "./components/Photo";
@@ -176,7 +177,7 @@ export default class App extends Component{
           }
         </header>
         
-        <main>
+        <main id="main">
           {this.state.photos.length > 0 && 
             <>
               <p>Sol {this.state.sol} | Photos {this.state.slice+1} - {this.state.sliceEnd} | Page {Math.ceil(this.state.sliceEnd / this.state.photosPerPage)}/{Math.ceil(this.state.solInfo.total_photos / this.state.photosPerPage)}</p>
@@ -201,7 +202,9 @@ export default class App extends Component{
             }
           </ul>
           {this.state.photos.length > 0 && 
-            <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>
+            <Link  to="main" spy={false} smooth={true}>
+              <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>
+            </Link>
           }
         </main>
       </div>
