@@ -2,6 +2,9 @@ import { Component } from "react";
 import { getManifest, getPhotosBySol } from "./utils/fetch";
 import {Link} from 'react-scroll'
 import './App.css';
+import RoverSelect from "./components/RoverSelect";
+import RoverInfo from "./components/RoverInfo";
+import SolInfo from "./components/SolInfo";
 import NextPrevPageButtons from "./components/NextPrevPageButtons";
 import Photo from "./components/Photo";
 
@@ -114,67 +117,16 @@ export default class App extends Component{
       <div>
         <h1>Spacestagram</h1>
         <header>
-          <div>
-            <h2>Select a rover</h2>
-            <ul className="rover-list">
-              {this.state.rovers.map((rover,i)=>(
-                <li 
-                  className={rover===this.state.rover.name ? 'current':''} 
-                  key={i} 
-                  onClick={()=>this.handleSelectRover(rover)}
-                >
-                  {rover}
-                </li>
-              ))}
-            </ul>
-          </div>
-          {this.state.rover.name && 
-            <div>
-              <h2>{this.state.rover.name}</h2>
-              <p>Launch date: <span>{this.state.rover.launch_date}</span></p>
-              <p>Landing date: <span>{this.state.rover.landing_date}</span></p>
-              <p>Latest day with photos: <span>{this.state.rover.max_date}</span></p>
-              <p>Martian days (Sols) with photos: <span>{this.state.rover.max_sol}</span></p>
-              <p>Status: <span>{this.state.rover.status}</span></p>
-              <p>Total Photos: <span>{this.state.rover.total_photos}</span></p>
-    
-              <form onSubmit={this.handleRequestPhotos}>
-                <label htmlFor="solPicker">Show me photos from Sol day:</label>
-                <span>
-                  <input 
-                    type="number" 
-                    id="solPicker"
-                    name="solPicker" 
-                    min="0" 
-                    max={this.state.rover.max_sol} 
-                    value={this.state.solPicker} 
-                    onChange={this.handleChange} 
-                    required 
-                  />
-                  <button className="bg-white" type="submit">Go</button>
-                </span>
-              </form>
-            </div>
-          }
-          {typeof this.state.sol === 'number' &&
-            <div>
-              <h2>Sol {this.state.sol}</h2>
-              {this.state.solInfo.empty ? 
-                <p>No photos from this date</p> 
-              : 
-                <>
-                  <p>Earth Date: <span>{this.state.solInfo.earth_date}</span></p>
-                  <p>Total Photos: <span>{this.state.solInfo.total_photos}</span></p>
-                  <h3>Cameras in use:</h3>
-                  <ul>
-                    {this.state.solInfo.cameras.map((c,i) => (
-                      <li key={i}>{c}</li>
-                    ))}
-                  </ul>
-                </>
-              }
-            </div>
-          }
+          <RoverSelect 
+            {...this.state} 
+            handleSelectRover={this.handleSelectRover}
+          />
+          <RoverInfo
+            {...this.state}
+            handleRequestPhotos={this.handleRequestPhotos}
+            handleChange={this.handleChange}
+          />
+          <SolInfo {...this.state}/>
         </header>
         
         <main id="main">
@@ -195,7 +147,7 @@ export default class App extends Component{
                   <div></div>
                 </li>
               ))
-            : ''}{
+            : 
               this.state.photos.slice(this.state.slice, this.state.sliceEnd).map( p => (
                 <Photo key={p.id} {...this.state} p={p} handleClickLike={this.handleClickLike}/>
               ))
