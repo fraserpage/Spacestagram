@@ -6,7 +6,7 @@
   --box-shadow: 1px 1px 5px rgb(63 63 63 / 58%);
 }
 
-*:not(.word-art>span){
+*{
   font-variation-settings: "wght" var(--wght),
                            "slnt" var(--slnt),
                            "MONO" var(--mono),
@@ -39,13 +39,14 @@ h1 + p{
   margin: 0;
 }
 
-body{
+body, input, button{
   font-family: 'Recursive', monospace;
-  margin: 5vmin;
+  margin: 0;
 }
 
 #root {
   max-width: 1500px;
+  padding: 5vmin;
   margin: 0 auto;
 }
 

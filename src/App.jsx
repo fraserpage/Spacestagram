@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { getManifest, getPhotosBySol } from "./utils/fetch";
 import {Link} from 'react-scroll'
+import { SRLWrapper } from "simple-react-lightbox";
 import './App.css';
 import RoverSelect from "./components/RoverSelect";
 import RoverInfo from "./components/RoverInfo";
@@ -9,6 +10,7 @@ import PageInfo from "./components/PageInfo";
 import NextPrevPageButtons from "./components/NextPrevPageButtons";
 import Photo from "./components/Photo";
 import setPickerHint from "./utils/setPickerHint";
+import LoadingPlaceholders from "./components/LoadingPlaceholders";
 
 export default class App extends Component{
 
@@ -54,7 +56,16 @@ export default class App extends Component{
       [evt.target.name]: sol,
       solPickerHint: setPickerHint(this.state.rover.photos, sol)
     });
-    
+  }
+
+  handleChangePhotosPerPage = (evt) => {
+    const photosPerPage = parseInt(evt.target.value)
+    if (isNaN(photosPerPage)) return
+    this.setState({
+      [evt.target.name]: photosPerPage,
+      slice: 0,
+      sliceEnd: this.resetSliceEnd(this.state.photoSet.length)
+    });
   }
 
   handleSelectRover = async (rover) => {
@@ -62,6 +73,7 @@ export default class App extends Component{
     this.setState({
       rover:data.photo_manifest,
       photos:[],
+      photoSet:[],
       slice:0,
       sol:'',
       camFilter:'',
@@ -176,27 +188,21 @@ export default class App extends Component{
         <main id="main">
           {this.state.photoSet.length > 0 && 
             <>
-              <PageInfo {...this.state} />
+              <PageInfo {...this.state} handleChangePhotosPerPage={this.handleChangePhotosPerPage} />
               <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>
             </>
           }
-          <ul>
             {this.state.loading ?
-              Array.from(Array(this.state.photosPerPage)).map((p,i)=>(
-                <li key={i} className="loading">
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </li>
-              ))
+              <LoadingPlaceholders {...this.state}/>
             : 
-              this.state.photoSet.slice(this.state.slice, this.state.sliceEnd).map( p => (
-                <Photo key={p.id} {...this.state} p={p} handleClickLike={this.handleClickLike}/>
-              ))
+              <SRLWrapper>
+                <ul>
+                  {this.state.photoSet.slice(this.state.slice, this.state.sliceEnd).map( p => (
+                    <Photo key={p.id} {...this.state} p={p} handleClickLike={this.handleClickLike}/>
+                  ))}
+                </ul>
+              </SRLWrapper>
             }
-          </ul>
           {this.state.photoSet.length > 0 && 
             <Link  to="main" spy={false} smooth={true}>
               <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>

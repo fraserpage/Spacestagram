@@ -1,3 +1,11 @@
 p.page-info span:first-child{
   --wght:400
 }
+
+input#photosPerPage {
+  border-color: black;
+  width: 3em;
+  font-size: 0.9em;
+  --mono: 1;
+  --wght: 400;
+}
