@@ -1,8 +1,10 @@
+.cameras li:hover,
 .rover-list li:hover{
   cursor: pointer;
   background-color: rgb(236, 236, 236);
 }
 
+.cameras li.current,
 .rover-list li.current{
-  --wght:600
+  --wght:800
 }
