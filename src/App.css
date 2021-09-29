@@ -13,6 +13,32 @@
                            "CASL" var(--casl);
 }
 
+a,
+a:hover,
+a:visited,
+a:active{
+  color: black;
+  --wght:350;
+  transition: all 0.1s;
+}
+
+a:hover{
+  --wght:800
+}
+
+h1{
+  margin-bottom: 0.5rem;
+  --wght: 350;
+}
+
+h1 ~ p{
+  margin: 0;
+  margin-bottom: 2rem;
+}
+h1 + p{
+  margin: 0;
+}
+
 body{
   font-family: 'Recursive', monospace;
   margin: 5vmin;

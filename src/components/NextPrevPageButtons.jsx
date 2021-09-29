@@ -4,7 +4,7 @@ export default function NextPrevPageButtons(props){
       {props.slice > 0 && 
         <button onClick={()=>props.handleLoadMore(-1)}>Previous page</button>
       }
-      {props.sliceEnd !== props.solInfo.total_photos && 
+      {props.sliceEnd !== props.photoSet.length && 
         <button onClick={()=>props.handleLoadMore(1)}>Next page</button>
       } 
     </>

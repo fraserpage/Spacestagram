@@ -5,8 +5,10 @@ import './App.css';
 import RoverSelect from "./components/RoverSelect";
 import RoverInfo from "./components/RoverInfo";
 import SolInfo from "./components/SolInfo";
+import PageInfo from "./components/PageInfo";
 import NextPrevPageButtons from "./components/NextPrevPageButtons";
 import Photo from "./components/Photo";
+import setPickerHint from "./utils/setPickerHint";
 
 export default class App extends Component{
 
@@ -24,18 +26,48 @@ export default class App extends Component{
     },
     solInfo:{empty:true},
     solPicker:0,
+    solPickerHint:"",
     sol:'',
     photos:[],
+    photoSet:[],
+    camFilter:"",
     slice:0,
     likes:{},
     photosPerPage:8
   }
 
-  handleChange = (evt) => {
+  setSliceEnd = (dir) => {
+    return this.state.sliceEnd + (this.state.photosPerPage * dir) > this.state.photoSet.length ? 
+              this.state.photoSet.length 
+            : this.state.sliceEnd + (this.state.photosPerPage * dir)
+  }
+
+  resetSliceEnd = (numPhotos) =>{
+    return this.state.photosPerPage > numPhotos ? 
+              numPhotos 
+            : this.state.photosPerPage
+  }
+
+  handleChangeSolInput = (evt) => {
+    const sol = parseInt(evt.target.value)
     this.setState({
-      [evt.target.name]: parseInt(evt.target.value),
+      [evt.target.name]: sol,
+      solPickerHint: setPickerHint(this.state.rover.photos, sol)
     });
-  };
+    
+  }
+
+  handleSelectRover = async (rover) => {
+    const data = await getManifest(rover)
+    this.setState({
+      rover:data.photo_manifest,
+      photos:[],
+      slice:0,
+      sol:'',
+      camFilter:'',
+      solPickerHint: setPickerHint(data.photo_manifest.photos, this.state.solPicker)
+    })
+  }
 
   handleRequestPhotos = async (evt) => {
     evt.preventDefault();
@@ -67,17 +99,37 @@ export default class App extends Component{
       this.setState({
         loading: false,
         photos: data.photos,
+        photoSet: data.photos,
+        camFilter:'',
         slice:0,
-        sliceEnd: 
-          this.state.photosPerPage > this.state.solInfo.total_photos ? 
-            this.state.solInfo.total_photos 
-          : this.state.photosPerPage
+        sliceEnd: this.resetSliceEnd(data.photos.length)
       })
     }
   }
 
+  handleFilterCamera = (camera) => {
+    if (camera === this.state.camFilter){
+      this.setState({
+        photoSet: this.state.photos,
+        camFilter: "",
+        slice:0,
+        sliceEnd: this.resetSliceEnd(this.state.photos.length)
+      })
+    }
+    else{
+      const newPhotoSet = this.state.photos.filter(p => p.camera.name === camera)
+      this.setState({
+        photoSet: newPhotoSet,
+        camFilter: camera,
+        slice:0,
+        sliceEnd: this.resetSliceEnd(newPhotoSet.length)
+      })
+    }
+    
+  }
+
   handleLoadMore = (dir) => {
-    if (this.state.sliceEnd === this.state.solInfo.total_photos){
+    if (this.state.sliceEnd === this.state.photoSet.length){
       this.setState({
         slice: this.state.slice - this.state.photosPerPage,
         sliceEnd: this.state.slice
@@ -86,22 +138,9 @@ export default class App extends Component{
     else{
       this.setState({
         slice: this.state.slice + (this.state.photosPerPage * dir),
-        sliceEnd: 
-          this.state.sliceEnd + (this.state.photosPerPage * dir) > this.state.solInfo.total_photos ? 
-              this.state.solInfo.total_photos 
-            : this.state.sliceEnd + (this.state.photosPerPage * dir)
+        sliceEnd: this.setSliceEnd(dir)
       })
     }
-  }
-
-  handleSelectRover = async (rover) => {
-    const data = await getManifest(rover)
-    this.setState({
-      rover:data.photo_manifest,
-      photos:[],
-      slice:0,
-      sol:''
-    })
   }
 
   handleClickLike = (id) => {
@@ -116,6 +155,8 @@ export default class App extends Component{
     return(
       <div>
         <h1>Spacestagram</h1>
+        <p>A fun little React app for exploring Mars Rover photos</p>
+        <p>by <a href="https://fraser.page">Fraser Page</a></p>
         <header>
           <RoverSelect 
             {...this.state} 
@@ -124,15 +165,18 @@ export default class App extends Component{
           <RoverInfo
             {...this.state}
             handleRequestPhotos={this.handleRequestPhotos}
-            handleChange={this.handleChange}
+            handleChangeSolInput={this.handleChangeSolInput}
           />
-          <SolInfo {...this.state}/>
+          <SolInfo 
+            handleFilterCamera={this.handleFilterCamera}
+            {...this.state}
+          />
         </header>
         
         <main id="main">
-          {this.state.photos.length > 0 && 
+          {this.state.photoSet.length > 0 && 
             <>
-              <p>Sol {this.state.sol} | Photos {this.state.slice+1} - {this.state.sliceEnd} | Page {Math.ceil(this.state.sliceEnd / this.state.photosPerPage)}/{Math.ceil(this.state.solInfo.total_photos / this.state.photosPerPage)}</p>
+              <PageInfo {...this.state} />
               <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>
             </>
           }
@@ -148,12 +192,12 @@ export default class App extends Component{
                 </li>
               ))
             : 
-              this.state.photos.slice(this.state.slice, this.state.sliceEnd).map( p => (
+              this.state.photoSet.slice(this.state.slice, this.state.sliceEnd).map( p => (
                 <Photo key={p.id} {...this.state} p={p} handleClickLike={this.handleClickLike}/>
               ))
             }
           </ul>
-          {this.state.photos.length > 0 && 
+          {this.state.photoSet.length > 0 && 
             <Link  to="main" spy={false} smooth={true}>
               <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>
             </Link>
