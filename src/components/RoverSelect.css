@@ -6,5 +6,6 @@
 
 .cameras li.current,
 .rover-list li.current{
-  --wght:800
+  --wght:800;
+  color:#333
 }
