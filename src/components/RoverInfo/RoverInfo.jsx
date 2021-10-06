@@ -1,5 +1,5 @@
 import './RoverInfo.css'
-import { numberWithCommas } from "../utils/formatters"
+import { numberWithCommas } from "../../utils/formatters"
 
 export default function RoverInfo(props){
   return(

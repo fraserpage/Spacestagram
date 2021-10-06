@@ -1,4 +1,4 @@
-import { numberWithCommas } from "../utils/formatters"
+import { numberWithCommas } from "../../utils/formatters"
 
 export default function SolInfo(props){
   return(

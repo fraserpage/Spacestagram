@@ -3,14 +3,14 @@ import { getManifest, getPhotosBySol } from "./utils/fetch";
 import {Link} from 'react-scroll'
 import { SRLWrapper } from "simple-react-lightbox";
 import './App.css';
-import RoverSelect from "./components/RoverSelect";
-import RoverInfo from "./components/RoverInfo";
-import SolInfo from "./components/SolInfo";
-import PageInfo from "./components/PageInfo";
-import NextPrevPageButtons from "./components/NextPrevPageButtons";
-import Photo from "./components/Photo";
+import RoverSelect from "./components/RoverSelect/RoverSelect";
+import RoverInfo from "./components/RoverInfo/RoverInfo";
+import SolInfo from "./components/SolInfo/SolInfo";
+import PageInfo from "./components/PageInfo/PageInfo";
+import NextPrevPageButtons from "./components/NextPrevPageButtons/NextPrevPageButtons";
+import Photo from "./components/Photo/Photo";
+import LoadingPlaceholders from "./components/LoadingPlaceholders/LoadingPlaceholders";
 import setPickerHint from "./utils/setPickerHint";
-import LoadingPlaceholders from "./components/LoadingPlaceholders";
 
 export default class App extends Component{
 
