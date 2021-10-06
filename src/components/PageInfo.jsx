@@ -14,13 +14,15 @@ export default function PageInfo(props) {
         <input 
           type="number"
           onChange={props.handleChangePhotosPerPage} 
-          value={props.photosPerPage} 
+          value={props.photosPerPageCtrl} 
           min={1} 
           max={999}
-          name="photosPerPage" 
-          id="photosPerPage"
+          name="photosPerPageCtrl" 
+          id="photosPerPageCtrl"
           required
-        /></span>
+        />
+      </span>
+      {props.photosPerPageErr && <div style={{'color':'red', '--wght':600, 'display':'inline-block'}}>{props.photosPerPageErr}</div>}
     </p>
   )
 }

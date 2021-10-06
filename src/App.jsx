@@ -35,7 +35,9 @@ export default class App extends Component{
     camFilter:"",
     slice:0,
     likes:{},
-    photosPerPage:8
+    photosPerPage:8,
+    photosPerPageCtrl:8,
+    photosPerPageErr:""
   }
 
   setSliceEnd = (dir) => {
@@ -44,10 +46,10 @@ export default class App extends Component{
             : this.state.sliceEnd + (this.state.photosPerPage * dir)
   }
 
-  resetSliceEnd = (numPhotos) =>{
-    return this.state.photosPerPage > numPhotos ? 
+  resetSliceEnd = (numPhotos, photosPerPage) =>{
+    return photosPerPage > numPhotos ? 
               numPhotos 
-            : this.state.photosPerPage
+            : photosPerPage
   }
 
   handleChangeSolInput = (evt) => {
@@ -60,12 +62,23 @@ export default class App extends Component{
 
   handleChangePhotosPerPage = (evt) => {
     const photosPerPage = parseInt(evt.target.value)
-    if (isNaN(photosPerPage)) return
     this.setState({
-      [evt.target.name]: photosPerPage,
-      slice: 0,
-      sliceEnd: this.resetSliceEnd(this.state.photoSet.length)
+      [evt.target.name]: photosPerPage
     });
+    if (photosPerPage > 1000){
+      this.setState({
+        photosPerPageErr:"Ok let's not go crazy with "+photosPerPage+" photos per page! You'll crash your browser! Max 999, deal?"
+      })
+      return
+    }
+    if (photosPerPage > 0){
+      this.setState({
+        photosPerPage: photosPerPage,
+        slice: 0,
+        sliceEnd: this.resetSliceEnd(this.state.photoSet.length, photosPerPage),
+        photosPerPageErr:""
+      });
+    }
   }
 
   handleSelectRover = async (rover) => {
@@ -114,7 +127,7 @@ export default class App extends Component{
         photoSet: data.photos,
         camFilter:'',
         slice:0,
-        sliceEnd: this.resetSliceEnd(data.photos.length)
+        sliceEnd: this.resetSliceEnd(data.photos.length, this.state.photosPerPage)
       })
     }
   }
@@ -125,7 +138,7 @@ export default class App extends Component{
         photoSet: this.state.photos,
         camFilter: "",
         slice:0,
-        sliceEnd: this.resetSliceEnd(this.state.photos.length)
+        sliceEnd: this.resetSliceEnd(this.state.photos.length, this.state.photosPerPage)
       })
     }
     else{
@@ -134,7 +147,7 @@ export default class App extends Component{
         photoSet: newPhotoSet,
         camFilter: camera,
         slice:0,
-        sliceEnd: this.resetSliceEnd(newPhotoSet.length)
+        sliceEnd: this.resetSliceEnd(newPhotoSet.length, this.state.photosPerPage)
       })
     }
     
@@ -192,7 +205,8 @@ export default class App extends Component{
               <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>
             </>
           }
-            {this.state.loading ?
+          {!isNaN(this.state.photosPerPage) && 
+            this.state.loading ?
               <LoadingPlaceholders {...this.state}/>
             : 
               <SRLWrapper>
@@ -202,8 +216,9 @@ export default class App extends Component{
                   ))}
                 </ul>
               </SRLWrapper>
-            }
-          {this.state.photoSet.length > 0 && 
+            
+          }
+          {this.state.photoSet.length > 0 && this.state.photosPerPage > 0 &&
             <Link  to="main" spy={false} smooth={true}>
               <NextPrevPageButtons {...this.state} handleLoadMore={this.handleLoadMore}/>
             </Link>
