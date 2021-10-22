@@ -1,3 +1,5 @@
+import { numberWithCommas } from "./formatters"
+
 export default function setPickerHint(roverPhotos, sol){
 
   const solInfo = roverPhotos.find(e => e.sol === sol)
@@ -8,6 +10,6 @@ export default function setPickerHint(roverPhotos, sol){
     return `No photos from Sol ${sol}`
   }
   else{
-    return `${solInfo.total_photos} photos from Sol ${sol}`
+    return `${numberWithCommas(solInfo.total_photos)} photos from Sol ${sol}`
   }
 }
