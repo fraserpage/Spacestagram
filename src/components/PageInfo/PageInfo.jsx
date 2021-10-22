@@ -13,6 +13,7 @@ export default function PageInfo(props) {
       <span> | <label htmlFor="photosPerPage">Photos per page: </label>
         <input 
           type="number"
+          inputmode="numeric"
           onChange={props.handleChangePhotosPerPage} 
           value={props.photosPerPageCtrl} 
           min={1} 
