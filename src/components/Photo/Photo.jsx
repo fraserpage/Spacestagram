@@ -11,6 +11,7 @@ export default class Photo extends Component{
     return(
       <li>
         <figure className={this.state.loaded ? null : 'loading'}>
+          {/* eslint-disable-next-line */}
           <img 
             onLoad={() => this.setState({loaded: true})}
             src={this.props.p.img_src} 
