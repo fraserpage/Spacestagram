@@ -26,6 +26,7 @@ export default function RoverInfo(props){
             <label htmlFor="solPicker">Show me photos from Sol:</label>
             <span>
               <input 
+                style={{'float': 'left'}}
                 inputmode="numeric"
                 type="number" 
                 id="solPicker"
